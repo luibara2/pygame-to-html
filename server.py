@@ -42,7 +42,7 @@ GAMES_CATALOG_PATH = Path(
 ).resolve()
 
 # Shown on the lobby info panel (mailto link).
-ARCADE_MAINTAINER_EMAIL = "dobryl25@spstrutnov.cz"
+ARCADE_MAINTAINER_EMAIL = "luda1266@outlook.cz"
 
 # Written by sync_one_repo when you use URL:entry (e.g. .../Projekt:hra or ...:základ hry)
 ARCADE_ENTRY_MARKER = ".arcade-entry"
