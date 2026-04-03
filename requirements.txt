@@ -1,0 +1,4 @@
+fastapi
+# [standard] installs websockets — required for /play-ws/<game> (plain uvicorn alone is not enough)
+uvicorn[standard]
+pygame>=2.5

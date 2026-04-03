@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Arcade (static file)</title>
+</head>
+<body>
+  <p>This <code>index.html</code> is only used if nginx (or another server) serves files straight from disk. The real lobby is built by <code>server.py</code> and needs requests to go to <strong>uvicorn</strong>.</p>
+  <p>Configure nginx to <code>proxy_pass</code> to your app (see <code>nginx-arcade.conf.example</code> in this directory), then reload nginx. After that, opening <code>/</code> on your domain hits FastAPI, not this file.</p>
+</body>
+</html>

@@ -1,0 +1,43 @@
+# Example systemd unit — copy to /etc/systemd/system/arcade.service, then:
+#   sudo systemctl daemon-reload && sudo systemctl enable --now arcade
+#
+# New games: the app rescans games/ on each request — no restart required after sync_repos.py.
+# sync_repos runs chmod -R a+rX on each clone so the service user can read repos synced as root.
+# Optional: chown new checkouts to this user instead:
+#   export ARCADE_GAMES_OWNER=arcade:arcade
+#
+# Restart only when you change server.py or arcade_remote_worker.py.
+#
+# Optional: restart the unit automatically after a successful sync (needs permission for systemctl):
+#   export ARCADE_SYSTEMD_UNIT=arcade
+#   export ARCADE_SYNC_AUTO_RESTART=1
+#   # or: export ARCADE_SYNC_RESTART_CMD='sudo /bin/systemctl restart arcade'
+#   python3 /var/www/arcade/sync_repos.py --restart https://github.com/owner/repo
+#
+# Install deps first (WebSocket routes need `websockets`, included in uvicorn[standard]):
+#   /var/www/arcade/.venv/bin/pip install -r /var/www/arcade/requirements.txt
+#
+# --workers 1  → one uvicorn process so each WebSocket stays tied to one game subprocess.
+# --ws-max-size → large vector JSON frames from /play-ws/<game> (default 16 MiB).
+
+[Unit]
+Description=Arcade FastAPI (uvicorn)
+After=network.target
+
+[Service]
+Type=simple
+User=arcade
+Group=arcade
+WorkingDirectory=/var/www/arcade
+
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/var/www/arcade/.venv/bin/uvicorn server:app --host 127.0.0.1 --port 8000 --workers 1 --ws-max-size 16777216
+
+Restart=always
+RestartSec=2
+
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
