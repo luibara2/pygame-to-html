@@ -24,13 +24,4 @@ logs/
 # Local clone list (personal or server-specific URLs)
 repos.txt
 
-# Cloned game repos: do not commit third-party game trees. Only the sample is tracked.
-/games/*
-!/games/space-shooter/
-!/games/space-shooter/**
 
-# Sample game: omit nested clone metadata, build output, stash, and local leaderboard data
-games/space-shooter/.git/
-games/space-shooter/build/
-games/space-shooter/ignore/
-games/space-shooter/leaderboard.jsonl
